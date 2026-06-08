@@ -1,8 +1,13 @@
 import axios from 'axios';
 import { auth, isDemoMode } from './firebase.js';
 
+let baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+if (baseUrl && !baseUrl.endsWith('/api')) {
+  baseUrl = baseUrl.endsWith('/') ? `${baseUrl}api` : `${baseUrl}/api`;
+}
+
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api',
+  baseURL: baseUrl,
   headers: {
     'Content-Type': 'application/json',
   },
