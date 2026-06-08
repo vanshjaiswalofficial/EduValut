@@ -1,8 +1,14 @@
 import axios from 'axios';
 import { auth, isDemoMode } from './firebase.js';
 
-let baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
-if (baseUrl && !baseUrl.endsWith('/api')) {
+let baseUrl = import.meta.env.VITE_API_URL;
+
+if (!baseUrl) {
+  if (import.meta.env.PROD) {
+    console.warn("WARNING: VITE_API_URL is undefined in production! Falling back to localhost.");
+  }
+  baseUrl = 'http://localhost:5000/api';
+} else if (!baseUrl.endsWith('/api')) {
   baseUrl = baseUrl.endsWith('/') ? `${baseUrl}api` : `${baseUrl}/api`;
 }
 
